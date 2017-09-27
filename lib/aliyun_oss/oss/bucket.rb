@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-module Aliyun
+module AliyunOSS
   module OSS
     ##
     # Bucket是用户的Object相关的操作的client，主要包括三部分功能：
@@ -194,7 +194,7 @@ module Aliyun
       #   put_object('x', :file => '/tmp/x', :content_type => 'text/html',
       #              :metas => {'year' => '2015', 'people' => 'mary'})
       # @example 指定Callback
-      #   callback = Aliyun::OSS::Callback.new(
+      #   callback = AliyunOSS::OSS::Callback.new(
       #     url: 'http://10.101.168.94:1234/callback',
       #     query: {user: 'put_object'},
       #     body: 'bucket=${bucket}&object=${object}'
@@ -461,7 +461,7 @@ module Aliyun
       #     puts "Progress: #{(p * 100).round(2)} %"
       #   end
       # @example 指定Callback
-      #   callback = Aliyun::OSS::Callback.new(
+      #   callback = AliyunOSS::OSS::Callback.new(
       #     url: 'http://10.101.168.94:1234/callback',
       #     query: {user: 'put_object'},
       #     body: 'bucket=${bucket}&object=${object}'
@@ -669,4 +669,4 @@ module Aliyun
       end
     end # Bucket
   end # OSS
-end # Aliyun
+end # AliyunOSS

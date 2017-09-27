@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'yaml'
 require 'nokogiri'
 
-module Aliyun
+module AliyunOSS
   module STS
 
     describe Util do
@@ -36,4 +36,4 @@ module Aliyun
 
     end # Util
   end # OSS
-end # Aliyun
+end # AliyunOSS

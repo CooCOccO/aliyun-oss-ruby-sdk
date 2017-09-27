@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     describe Util do
@@ -97,4 +97,4 @@ module Aliyun
     end # Util
 
   end # OSS
-end # Aliyun
+end # AliyunOSS

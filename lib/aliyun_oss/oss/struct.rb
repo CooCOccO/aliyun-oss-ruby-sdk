@@ -4,7 +4,7 @@ require 'base64'
 require 'json'
 require 'uri'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     ##
@@ -205,4 +205,4 @@ module Aliyun
     end # Callback
 
   end # OSS
-end # Aliyun
+end # AliyunOSS

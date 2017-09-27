@@ -1,6 +1,6 @@
 # Put it under: RAILS-APP/config/initializers/
 
-require 'aliyun/oss'
+require 'aliyun_oss/oss'
 
 ##
 # Help initialize OSS Client. User can use it easily at any place in
@@ -12,9 +12,9 @@ require 'aliyun/oss'
 module OSS
   def self.client
     unless @client
-      Aliyun::Common::Logging.set_log_file('./log/oss_sdk.log')
+      AliyunOSS::Common::Logging.set_log_file('./log/oss_sdk.log')
 
-      @client = Aliyun::OSS::Client.new(
+      @client = AliyunOSS::OSS::Client.new(
         endpoint:
           Rails.application.secrets.aliyun_oss['endpoint'],
         access_key_id:

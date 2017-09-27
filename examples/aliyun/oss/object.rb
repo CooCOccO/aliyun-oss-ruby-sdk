@@ -2,13 +2,13 @@
 
 $LOAD_PATH.unshift(File.expand_path("../../../../lib", __FILE__))
 require 'yaml'
-require 'aliyun/oss'
+require 'aliyun_oss/oss'
 
 # 初始化OSS client
-Aliyun::Common::Logging.set_log_level(Logger::DEBUG)
+AliyunOSS::Common::Logging.set_log_level(Logger::DEBUG)
 conf_file = '~/.oss.yml'
 conf = YAML.load(File.read(File.expand_path(conf_file)))
-bucket = Aliyun::OSS::Client.new(
+bucket = AliyunOSS::OSS::Client.new(
   :endpoint => conf['endpoint'],
   :cname => conf['cname'],
   :access_key_id => conf['access_key_id'],
@@ -151,7 +151,7 @@ end
 
 demo "Set object ACL" do
   puts "Object acl before: #{bucket.get_object_acl('files/hello')}"
-  bucket.set_object_acl('files/hello', Aliyun::OSS::ACL::PUBLIC_READ)
+  bucket.set_object_acl('files/hello', AliyunOSS::OSS::ACL::PUBLIC_READ)
   puts "Object acl now: #{bucket.get_object_acl('files/hello')}"
 end
 
@@ -163,7 +163,7 @@ demo "Get object with conditions" do
     o = bucket.get_object(
       'files/hello',
       :condition => {:if_match_etag => o.etag + 'x'})
-  rescue Aliyun::OSS::ServerError => e
+  rescue AliyunOSS::OSS::ServerError => e
     puts "Get object failed: #{e.message}"
   end
 
@@ -171,7 +171,7 @@ demo "Get object with conditions" do
     o = bucket.get_object(
       'files/hello',
       :condition => {:if_unmodified_since => o.last_modified - 60})
-  rescue Aliyun::OSS::ServerError => e
+  rescue AliyunOSS::OSS::ServerError => e
     puts "Get object failed: #{e.message}"
   end
 

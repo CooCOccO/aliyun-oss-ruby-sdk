@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
-module Aliyun
+module AliyunOSS
 
     VERSION = "0.6.0"
 
-end # Aliyun
+end # AliyunOSS

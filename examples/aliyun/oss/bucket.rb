@@ -2,13 +2,13 @@
 
 $LOAD_PATH.unshift(File.expand_path("../../../../lib", __FILE__))
 require 'yaml'
-require 'aliyun/oss'
+require 'aliyun_oss/oss'
 
 # 初始化OSS client
-Aliyun::Common::Logging.set_log_level(Logger::DEBUG)
+AliyunOSS::Common::Logging.set_log_level(Logger::DEBUG)
 conf_file = '~/.oss.yml'
 conf = YAML.load(File.read(File.expand_path(conf_file)))
-client = Aliyun::OSS::Client.new(
+client = AliyunOSS::OSS::Client.new(
   :endpoint => conf['endpoint'],
   :cname => conf['cname'],
   :access_key_id => conf['access_key_id'],
@@ -87,7 +87,7 @@ demo "List first 10 objects/common prefixes" do
   objects = bucket.list_objects(:prefix => 'foo/', :delimiter => '/')
 
   objects.take(10).each do |o|
-    if o.is_a?(Aliyun::OSS::Object)
+    if o.is_a?(AliyunOSS::OSS::Object)
       puts "Object: #{o.key}, type: #{o.type}, size: #{o.size}"
     else
       puts "Common prefix: #{o}"
@@ -98,33 +98,33 @@ end
 # 获取/设置Bucket属性: ACL, Logging, Referer, Website, LifeCycle, CORS
 demo "Get/Set bucket properties: ACL/Logging/Referer/Website/Lifecycle/CORS" do
   puts "Bucket acl before: #{bucket.acl}"
-  bucket.acl = Aliyun::OSS::ACL::PUBLIC_READ
+  bucket.acl = AliyunOSS::OSS::ACL::PUBLIC_READ
   puts "Bucket acl now: #{bucket.acl}"
   puts
 
   puts "Bucket logging before: #{bucket.logging.to_s}"
-  bucket.logging = Aliyun::OSS::BucketLogging.new(
+  bucket.logging = AliyunOSS::OSS::BucketLogging.new(
     :enable => true, :target_bucket => conf['bucket'], :target_prefix => 'foo/')
   puts "Bucket logging now: #{bucket.logging.to_s}"
   puts
 
   puts "Bucket referer before: #{bucket.referer.to_s}"
-  bucket.referer = Aliyun::OSS::BucketReferer.new(
+  bucket.referer = AliyunOSS::OSS::BucketReferer.new(
     :allow_empty => true, :whitelist => ['baidu.com', 'aliyun.com'])
   puts "Bucket referer now: #{bucket.referer.to_s}"
   puts
 
   puts "Bucket website before: #{bucket.website.to_s}"
-  bucket.website = Aliyun::OSS::BucketWebsite.new(
+  bucket.website = AliyunOSS::OSS::BucketWebsite.new(
     :enable => true, :index => 'default.html', :error => 'error.html')
   puts "Bucket website now: #{bucket.website.to_s}"
   puts
 
   puts "Bucket lifecycle before: #{bucket.lifecycle.map(&:to_s)}"
   bucket.lifecycle = [
-    Aliyun::OSS::LifeCycleRule.new(
+    AliyunOSS::OSS::LifeCycleRule.new(
     :id => 'rule1', :enable => true, :prefix => 'foo/', :expiry => 1),
-    Aliyun::OSS::LifeCycleRule.new(
+    AliyunOSS::OSS::LifeCycleRule.new(
       :id => 'rule2', :enable => false, :prefix => 'bar/', :expiry => Date.new(2016, 1, 1))
   ]
   puts "Bucket lifecycle now: #{bucket.lifecycle.map(&:to_s)}"
@@ -132,7 +132,7 @@ demo "Get/Set bucket properties: ACL/Logging/Referer/Website/Lifecycle/CORS" do
 
   puts "Bucket cors before: #{bucket.cors.map(&:to_s)}"
   bucket.cors = [
-    Aliyun::OSS::CORSRule.new(
+    AliyunOSS::OSS::CORSRule.new(
     :allowed_origins => ['aliyun.com', 'http://www.taobao.com'],
     :allowed_methods => ['PUT', 'POST', 'GET'],
     :allowed_headers => ['Authorization'],

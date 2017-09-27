@@ -5,7 +5,7 @@ require 'base64'
 require 'openssl'
 require 'digest/md5'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     ##
@@ -96,7 +96,7 @@ module Aliyun
       end # self
     end # Util
   end # OSS
-end # Aliyun
+end # AliyunOSS
 
 # Monkey patch to support #to_bool
 class String

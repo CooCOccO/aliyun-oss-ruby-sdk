@@ -6,7 +6,7 @@ void Init_crcx(){
 
     crc64_init_once();
 
-    mAliyun = rb_define_module("Aliyun");
+    mAliyun = rb_define_module("AliyunOSS");
     CrcX = rb_define_module_under(mAliyun, "CrcX");
     rb_define_module_function(CrcX, "crc64", crc64_wrapper, 3);
     rb_define_module_function(CrcX, "crc64_combine", crc64_combine_wrapper, 3);

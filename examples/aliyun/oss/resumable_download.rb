@@ -2,13 +2,13 @@
 
 $LOAD_PATH.unshift(File.expand_path("../../../../lib", __FILE__))
 require 'yaml'
-require 'aliyun/oss'
+require 'aliyun_oss/oss'
 
 # 初始化OSS Bucket
-Aliyun::Common::Logging.set_log_level(Logger::DEBUG)
+AliyunOSS::Common::Logging.set_log_level(Logger::DEBUG)
 conf_file = '~/.oss.yml'
 conf = YAML.load(File.read(File.expand_path(conf_file)))
-bucket = Aliyun::OSS::Client.new(
+bucket = AliyunOSS::OSS::Client.new(
   :endpoint => conf['endpoint'],
   :cname => conf['cname'],
   :access_key_id => conf['access_key_id'],

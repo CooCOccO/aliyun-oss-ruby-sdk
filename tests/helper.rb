@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-module Aliyun
+module AliyunOSS
   module Test
     module Helper
       def random_string(n)

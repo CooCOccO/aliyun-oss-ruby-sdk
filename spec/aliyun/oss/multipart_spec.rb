@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'yaml'
 require 'nokogiri'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     describe Multipart do
@@ -222,7 +222,7 @@ module Aliyun
           query = {'partNumber' => part_no, 'uploadId' => txn_id}
 
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
 
           stub_request(:put, request_path).with(:query => query).to_return(
             :status => 200, :headers => {:x_oss_hash_crc64ecma => content_crc + 1})
@@ -240,7 +240,7 @@ module Aliyun
           query = {'partNumber' => part_no, 'uploadId' => txn_id}
 
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
 
           stub_request(:put, request_path).with(:query => query).to_return(
             :status => 200, :headers => {:x_oss_hash_crc64ecma => content_crc})
@@ -728,4 +728,4 @@ module Aliyun
     end # Multipart
 
   end # OSS
-end # Aliyun
+end # AliyunOSS

@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'yaml'
 require 'nokogiri'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     describe "Bucket" do
@@ -648,4 +648,4 @@ module Aliyun
     end # Bucket
 
   end # OSS
-end # Aliyun
+end # AliyunOSS

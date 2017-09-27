@@ -3,12 +3,12 @@ require 'minitest/autorun'
 require 'benchmark'
 require 'yaml'
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
-require 'aliyun/oss'
+require 'aliyun_oss/oss'
 require_relative 'config'
 
 class TestLargeFile < Minitest::Test
   def setup
-    client = Aliyun::OSS::Client.new(TestConf.creds)
+    client = AliyunOSS::OSS::Client.new(TestConf.creds)
     @bucket = client.get_bucket(TestConf.bucket)
 
     @prefix = 'tests/large_file/'

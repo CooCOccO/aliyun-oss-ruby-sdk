@@ -4,7 +4,7 @@ require 'rest-client'
 require 'resolv'
 require 'fiber'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     ##
@@ -88,7 +88,7 @@ module Aliyun
           # "". ios.read(positive-integer) returns nil.
           return nil if ret.empty? && !bytes.nil? && bytes > 0
 
-          @data_crc = Aliyun::OSS::Util.crc(ret, @data_crc) if @crc_enable
+          @data_crc = AliyunOSS::OSS::Util.crc(ret, @data_crc) if @crc_enable
 
           ret
         end
@@ -303,7 +303,7 @@ module Aliyun
 
     end # HTTP
   end # OSS
-end # Aliyun
+end # AliyunOSS
 
 # Monkey patch rest-client to exclude the 'Content-Length' header when
 # 'Transfer-Encoding' is set to 'chuncked'. This may be a problem for

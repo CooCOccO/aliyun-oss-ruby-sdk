@@ -32,7 +32,7 @@ to activate OSS. After the service is activated, go to *Console* to view your `A
 
 Include the following in your project or 'irb' command: 
 
-    require 'aliyun/oss'
+    require 'aliyun_oss/oss'
 
 **Note:**
 
@@ -49,7 +49,7 @@ The practices for other systems are similar.
 
 ### Create a client
 
-    client = Aliyun::OSS::Client.new(
+    client = AliyunOSS::OSS::Client.new(
       :endpoint => 'endpoint',
       :access_key_id => 'access_key_id',
       :access_key_secret => 'access_key_secret')
@@ -69,7 +69,7 @@ binding a custom domain name, visit the official website: [Binding Custom Domain
 After you have bound a custom domain name, you can use the standard OSS service address as the specified endpoint of the OSS, 
 or use the bound domain name: 
 
-    client = Aliyun::OSS::Client.new(
+    client = AliyunOSS::OSS::Client.new(
       :endpoint => 'http://img.my-domain.com',
       :access_key_id => 'access_key_id',
       :access_key_secret => 'access_key_secret',
@@ -80,7 +80,7 @@ or use the bound domain name:
 - You must set the `cname` to ***true*** when initializing the client. 
 - The custom domain name is bound to a bucket of the OSS, so the client created in this method does not support 
    List_buckets operations. 
-- You still need to specify the bucket name during the {Aliyun::OSS::Client#get_bucket} operation and the bucket name should be the same as that 
+- You still need to specify the bucket name during the {AliyunOSS::OSS::Client#get_bucket} operation and the bucket name should be the same as that 
    bound to the domain name. 
 
 #### Create a client using STS
@@ -90,13 +90,13 @@ Before using STS, you must apply for a temporary token from the STS.
 Alibaba Cloud Ruby SDK contains the STS SDK, and you only need to `require 'aliyun/sts'` for usage: 
 
     require 'aliyun/sts'
-    sts = Aliyun::STS::Client.new(
+    sts = AliyunOSS::STS::Client.new(
       access_key_id: 'access_key_id',
       access_key_secret: 'access_key_secret')
 
     token = sts.assume_role('role-arn', 'my-app')
 
-    client = Aliyun::OSS::Client.new(
+    client = AliyunOSS::OSS::Client.new(
       :endpoint => 'http://oss-cn-hangzhou.aliyuncs.com',
       :access_key_id => token.access_key_id,
       :access_key_secret => token.access_key_secret,
@@ -110,7 +110,7 @@ Alibaba Cloud Ruby SDK contains the STS SDK, and you only need to `require 'aliy
     buckets.each{ |b| puts b.name }
 
 The `list_buckets` command returns an iterator for you to get the information of each bucket in order. Bucket
-For the object structure, see {Aliyun::OSS::Bucket} in the API documentation. 
+For the object structure, see {AliyunOSS::OSS::Bucket} in the API documentation. 
 
 ### Create a bucket
 
@@ -123,7 +123,7 @@ For the object structure, see {Aliyun::OSS::Bucket} in the API documentation.
     objects.each{ |o| puts o.key }
 
 The `list_objects` command returns an iterator for you to get the information of each object in order. Object
-For the object structure, see {Aliyun::OSS::Object} in the API documentation.
+For the object structure, see {AliyunOSS::OSS::Object} in the API documentation.
 
 ### Create an object in the bucket
 
@@ -149,7 +149,7 @@ You can also download the object to a local file:
 
     bucket.object_exists?(object_key)
 
-For more operations on buckets, refer to {Aliyun::OSS::Bucket} in the API documentation.
+For more operations on buckets, refer to {AliyunOSS::OSS::Bucket} in the API documentation.
 
 ## Simulate the directory structure
 
@@ -169,7 +169,7 @@ the common prefix of objects, objects with the prefix will be included in the *l
 
     objs = bucket.list_objects(:prefix => 'foo/', :delimiter => '/')
     objs.each do |i|
-      if i.is_a?(Aliyun::OSS::Object) # a object
+      if i.is_a?(AliyunOSS::OSS::Object) # a object
         puts "object: #{i.key}"
       else
         puts "common prefix: #{i}"
@@ -192,7 +192,7 @@ such as updating the database and making statistics. For more details about uplo
 
 The example below demonstrates how to use the upload callback: 
 
-    callback = Aliyun::OSS::Callback.new(
+    callback = AliyunOSS::OSS::Callback.new(
       url: 'http://10.101.168.94:1234/callback',
       query: {user: 'put_object'},
       body: 'bucket=${bucket}&object=${object}'
@@ -200,7 +200,7 @@ The example below demonstrates how to use the upload callback:
 
     begin
       bucket.put_object('files/hello', callback: callback)
-    rescue Aliyun::OSS::CallbackError => e
+    rescue AliyunOSS::OSS::CallbackError => e
       puts "Callback failed: #{e.message}"
     end
 
@@ -209,7 +209,7 @@ The example below demonstrates how to use the upload callback:
 - The callback URL **must not** contain the query string which must be specified in the `:query` parameter.
 - In the event that the file is successfully uploaded but callback execution fails, the client will throw
    `CallbackError`. To ignore the error, you need to explicitly catch the exception.
-- For detailed examples, refer to [callback.rb](examples/aliyun/oss/callback.rb).
+- For detailed examples, refer to [callback.rb](examples/aliyun_oss/oss/callback.rb).
 - For servers that support callback, refer to [callback_server.rb](rails/aliyun_oss_callback_server.rb).
 
 ## Resumable upload/download
@@ -302,8 +302,8 @@ Of course, you can also read the appended content from the object:
     pos = bucket.get_object(object_key).size
     next_pos = bucket.append_object(object_key, pos, :file => local_file)
 
-During the first append, you can use {Aliyun::OSS::Bucket#get_object} to get the object length. 
-For later append operations, you can refer to the response of {Aliyun::OSS::Bucket#append_object} to determine the length value for next append. 
+During the first append, you can use {AliyunOSS::OSS::Bucket#get_object} to get the object length. 
+For later append operations, you can refer to the response of {AliyunOSS::OSS::Bucket#append_object} to determine the length value for next append. 
 
 ***Note:*** Concurrent `append_object` and `next_pos` operations do not always produce correct results. 
 
@@ -326,7 +326,7 @@ operations.
 
 - The key and value of the meta information can only be simple ASCII non-newline characters and the total size must not exceed ***8KB***. 
 - In the copy object operation, the meta information of the source object will be copied by default. If you don't want this, explicitly set the 
-   `:meta_directive` to {Aliyun::OSS::MetaDirective::REPLACE}.
+   `:meta_directive` to {AliyunOSS::OSS::MetaDirective::REPLACE}.
 
 ## Permission control
 
@@ -340,7 +340,7 @@ external access to your resources. A bucket is enabled with three types of acces
 When a bucket is created, the private permission applies by default. You can use 'bucket.acl=' to set
 the ACL of the bucket.
 
-    bucket.acl = Aliyun::OSS::ACL::PUBLIC_READ
+    bucket.acl = AliyunOSS::OSS::ACL::PUBLIC_READ
     puts bucket.acl # public-read
 
 An object is enabled with four types of access permissions:
@@ -355,7 +355,7 @@ When an object is created, the default permission applies by default. You can us
 
     acl = bucket.get_object_acl(object_key)
     puts acl # default
-    bucket.set_object_acl(object_key, Aliyun::OSS::ACL::PUBLIC_READ)
+    bucket.set_object_acl(object_key, AliyunOSS::OSS::ACL::PUBLIC_READ)
     acl = bucket.get_object_acl(object_key)
     puts acl # public-read
 
@@ -390,7 +390,7 @@ after some configuration. The permission information and the bucket information 
 
 You need to create (if not in existence) or modify the content and run the example project: 
 
-    ruby examples/aliyun/oss/bucket.rb
+    ruby examples/aliyun_oss/oss/bucket.rb
 
 ## Run test
 

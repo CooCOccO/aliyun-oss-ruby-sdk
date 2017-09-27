@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'yaml'
 require 'nokogiri'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     describe "Object" do
@@ -203,7 +203,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
           stub_request(:put, url).to_return(
             :status => 200, :headers => {:x_oss_hash_crc64ecma => content_crc.to_i + 1})
           expect(crc_protocol.upload_crc_enable).to eq(true)
@@ -218,7 +218,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
           stub_request(:put, url).to_return(
             :status => 200, :headers => {:x_oss_hash_crc64ecma => content_crc})
           expect(crc_protocol.upload_crc_enable).to eq(true)
@@ -333,7 +333,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
 
           query = {'append' => nil, 'position' => 11}
           return_headers = {'x-oss-next-append-position' => '101', :x_oss_hash_crc64ecma => content_crc.to_i + 1}
@@ -351,7 +351,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
 
           query = {'append' => nil, 'position' => 11}
           return_headers = {'x-oss-next-append-position' => '101', :x_oss_hash_crc64ecma => content_crc}
@@ -375,7 +375,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
 
           query = {'append' => nil, 'position' => 11}
           return_headers = {'x-oss-next-append-position' => '101', :x_oss_hash_crc64ecma => content_crc + 1}
@@ -667,7 +667,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
           stub_request(:get, url).to_return(
             :status => 200, :body => content, :headers => {:x_oss_hash_crc64ecma => content_crc.to_i + 1})
           response_content = ""
@@ -681,7 +681,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
           stub_request(:get, url).to_return(
             :status => 200, :body => content, :headers => {:x_oss_hash_crc64ecma => content_crc})
           response_content = ""
@@ -696,7 +696,7 @@ module Aliyun
           object_name = 'ruby'
           url = get_request_path(object_name)
           content = "hello world 0123456789"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
           stub_request(:get, url).to_return(
             :status => 200, :body => content, :headers => {:x_oss_hash_crc64ecma => content_crc.to_i + 1})
           response_content = ""
@@ -935,4 +935,4 @@ module Aliyun
     end # Object
 
   end # OSS
-end # Aliyun
+end # AliyunOSS

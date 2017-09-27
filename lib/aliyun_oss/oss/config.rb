@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     ##
@@ -39,4 +39,4 @@ module Aliyun
 
     end # Config
   end # OSS
-end # Aliyun
+end # AliyunOSS

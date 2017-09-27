@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
     describe HTTP do
@@ -79,7 +79,7 @@ module Aliyun
 
         it "should read with a correct crc" do
           content = "hello world"
-          content_crc = Aliyun::OSS::Util.crc(content)
+          content_crc = AliyunOSS::OSS::Util.crc(content)
           s = HTTP::StreamWriter.new(true) do |sr|
             sr << content
           end
@@ -92,7 +92,7 @@ module Aliyun
         it "should read with a correct crc when setting init_crc" do
           content = "hello world"
           init_crc = 100
-          content_crc = Aliyun::OSS::Util.crc(content, init_crc)
+          content_crc = AliyunOSS::OSS::Util.crc(content, init_crc)
 
           s = HTTP::StreamWriter.new(true, init_crc) do |sr|
             sr << content
@@ -106,4 +106,4 @@ module Aliyun
 
     end # HTTP
   end # OSS
-end # Aliyun
+end # AliyunOSS

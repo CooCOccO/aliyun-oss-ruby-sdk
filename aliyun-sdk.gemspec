@@ -2,16 +2,16 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'aliyun/version'
+require 'aliyun_oss/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'aliyun-sdk'
-  spec.version       = Aliyun::VERSION
+  spec.version       = AliyunOSS::VERSION
   spec.authors       = ['Tianlong Wu']
   spec.email         = ['rockuw.@gmail.com']
 
   spec.summary       = 'Aliyun OSS SDK for Ruby'
-  spec.description   = 'A Ruby program to facilitate accessing Aliyun Object Storage Service'
+  spec.description   = 'A Ruby program to facilitate accessing AliyunOSS Object Storage Service'
   spec.homepage      = 'https://github.com/aliyun/aliyun-oss-ruby-sdk'
 
   spec.files         = Dir.glob("lib/**/*.rb") + Dir.glob("examples/**/*.rb") + Dir.glob("ext/**/*.{rb,c,h}")

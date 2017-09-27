@@ -2,20 +2,20 @@ require 'minitest/autorun'
 require 'yaml'
 require 'tempfile'
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
-require 'aliyun/oss'
+require 'aliyun_oss/oss'
 require_relative 'config'
 require_relative 'helper'
 
 class TestCrcCheck < Minitest::Test
 
-  include Aliyun::Test::Helper
+  include AliyunOSS::Test::Helper
   
   @@tests_run = 0
   @@test_file = nil
 
   def setup
-    Aliyun::Common::Logging.set_log_level(Logger::DEBUG)
-    client = Aliyun::OSS::Client.new(TestConf.creds)
+    AliyunOSS::Common::Logging.set_log_level(Logger::DEBUG)
+    client = AliyunOSS::OSS::Client.new(TestConf.creds)
     @bucket = client.get_bucket(TestConf.bucket)
     @prefix = 'tests/crc_check/'
 
@@ -50,7 +50,7 @@ class TestCrcCheck < Minitest::Test
     assert_equal(test_object.size, 10 * 1024 * 1024)
 
     # Check crc wrong case.
-    assert_raises Aliyun::OSS::CrcInconsistentError do
+    assert_raises AliyunOSS::OSS::CrcInconsistentError do
       @bucket.put_object(key, {:init_crc => 1, :file => @@test_file.path}) do |content|
         content << 'hello world.'
       end
@@ -65,7 +65,7 @@ class TestCrcCheck < Minitest::Test
     assert_equal(test_object.size, 'hello world.'.size)
 
     # Check crc wrong case.
-    assert_raises Aliyun::OSS::CrcInconsistentError do
+    assert_raises AliyunOSS::OSS::CrcInconsistentError do
       @bucket.put_object(key, :init_crc => 1) do |content|
         content << 'hello world.'
       end
@@ -105,7 +105,7 @@ class TestCrcCheck < Minitest::Test
     assert_equal(test_object.size, 'hello world.'.size * 2 + (10 * 1024 * 1024))
 
     # Check crc wrong case.
-    assert_raises Aliyun::OSS::CrcInconsistentError do
+    assert_raises AliyunOSS::OSS::CrcInconsistentError do
       position = @bucket.append_object(key, test_object.size, :init_crc => 0) do |content|
         content << 'hello world.'
       end
@@ -113,7 +113,7 @@ class TestCrcCheck < Minitest::Test
 
     # Check crc wrong case.
     test_object = @bucket.get_object(key)
-    assert_raises Aliyun::OSS::CrcInconsistentError do
+    assert_raises AliyunOSS::OSS::CrcInconsistentError do
       @bucket.append_object(key, test_object.size, {:init_crc => 0, :file => @@test_file.path})
     end
   ensure
@@ -151,7 +151,7 @@ class TestCrcCheck < Minitest::Test
     assert_equal(test_object.size, 'hello world.'.size)
 
     # Check crc wrong case.
-    assert_raises Aliyun::OSS::CrcInconsistentError do
+    assert_raises AliyunOSS::OSS::CrcInconsistentError do
       @bucket.get_object(key, {:init_crc => 1}) { |c| temp_buf << c }
     end
   ensure
@@ -173,7 +173,7 @@ class TestCrcCheck < Minitest::Test
     assert_equal(test_object.size, 10 * 1024 * 1024)
 
     # Check crc wrong case.
-    assert_raises Aliyun::OSS::CrcInconsistentError do
+    assert_raises AliyunOSS::OSS::CrcInconsistentError do
       @bucket.get_object(key, {:file => get_temp_file, :init_crc => 1})
     end
   ensure

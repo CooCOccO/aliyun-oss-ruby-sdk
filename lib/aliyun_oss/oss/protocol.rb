@@ -4,7 +4,7 @@ require 'rest-client'
 require 'nokogiri'
 require 'time'
 
-module Aliyun
+module AliyunOSS
   module OSS
 
 
@@ -548,7 +548,7 @@ module Aliyun
 
         if @config.upload_crc_enable && !r.headers[:x_oss_hash_crc64ecma].nil?
           data_crc = payload.data_crc
-          Aliyun::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'put')
+          AliyunOSS::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'put')
         end
 
         logger.debug('Done put object')
@@ -604,7 +604,7 @@ module Aliyun
           !r.headers[:x_oss_hash_crc64ecma].nil? &&
           !opts[:init_crc].nil?
           data_crc = payload.data_crc
-          Aliyun::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'append')
+          AliyunOSS::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'append')
         end
 
         logger.debug('Done append object')
@@ -784,13 +784,13 @@ module Aliyun
         ) do |chunk|
           if block_given?
             # crc enable and no range and oss server support crc
-            data_crc = Aliyun::OSS::Util.crc(chunk, data_crc) if @config.download_crc_enable && range.nil?
+            data_crc = AliyunOSS::OSS::Util.crc(chunk, data_crc) if @config.download_crc_enable && range.nil?
             yield chunk
           end
         end
 
         if @config.download_crc_enable && range.nil? && !r.headers[:x_oss_hash_crc64ecma].nil?
-          Aliyun::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'get')
+          AliyunOSS::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'get')
         end
 
         h = r.headers
@@ -1118,7 +1118,7 @@ module Aliyun
 
         if @config.upload_crc_enable && !r.headers[:x_oss_hash_crc64ecma].nil?
           data_crc = payload.data_crc
-          Aliyun::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'put')
+          AliyunOSS::OSS::Util.crc_check(data_crc, r.headers[:x_oss_hash_crc64ecma], 'put')
         end
 
         logger.debug("Done upload part")
@@ -1542,4 +1542,4 @@ module Aliyun
       end
     end # Protocol
   end # OSS
-end # Aliyun
+end # AliyunOSS
