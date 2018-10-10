@@ -608,7 +608,7 @@ module AliyunOSS
 
         resource = "/#{name}/#{key}"
         unless sub_res.empty?
-          resource << "?#{sub_res.join('&')}"
+          resource << (resource.include?('?') ? "&#{sub_res.join('&')}" : "?#{sub_res.join('&')}")
         end
 
         string_to_sign = "" <<
@@ -623,7 +623,8 @@ module AliyunOSS
           query.merge('Signature' => CGI.escape(signature))
           .map { |k, v| "#{k}=#{v}" }.join('&')
 
-        [url, query_string].join('?')
+        link_char = url.include?('?') ? '&' : '?'
+        [url, query_string].join(link_char)
       end
 
       # 获取用户所设置的ACCESS_KEY_ID
